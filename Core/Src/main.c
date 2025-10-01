@@ -18,6 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+
+#include <math.h>
+
 #include "iwdg.h"
 #include "tim.h"
 #include "gpio.h"
@@ -89,15 +92,16 @@ int main(void) {
   MX_TIM1_Init();
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start(&htim1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-    if (TIM1->CNT == 1) {
-      HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_11);
-    }
+    uint32_t arr_value = TIM1->ARR + 1;
+    uint32_t brightness;
+    brightness = (uint32_t)arr_value * sinf(4 * HAL_GetTick() / 1000.0f) - 1;
+    TIM1->CCR2 = brightness;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
