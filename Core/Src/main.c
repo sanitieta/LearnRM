@@ -45,7 +45,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t rx_msg[4];
+uint8_t rx_msg[10];
+uint8_t tx_msg[10];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,16 +94,12 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  uint8_t tx_msg[] = "RobotMaster";
-  HAL_UART_Receive_IT(&huart7, rx_msg, 1);
+  HAL_UART_Receive_IT(&huart7, rx_msg, sizeof(rx_msg));
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
-    HAL_UART_Transmit(&huart7, tx_msg, sizeof(tx_msg) / sizeof(tx_msg[0]),
-                      1000);
-    HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
