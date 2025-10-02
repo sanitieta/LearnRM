@@ -18,15 +18,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart) {
   if (huart == &huart7) {
-    for (size_t i = 0; i < sizeof(rx_msg) / sizeof(rx_msg[0]); i++) {
-      tx_msg[i] = rx_msg[i];
+    if (rx_msg[0] == 'R') {
+      HAL_GPIO_WritePin(GPIOF, GPIO_PIN_14, GPIO_PIN_RESET);
+    }else if (rx_msg[0] == 'M') {
+      HAL_GPIO_WritePin(GPIOF, GPIO_PIN_14, GPIO_PIN_SET);
     }
-    HAL_UART_Transmit_IT(&huart7, tx_msg, sizeof(tx_msg));
+    HAL_UART_Receive_IT(&huart7, rx_msg, 1);
+    // HAL_UART_Transmit_IT(&huart7, tx_msg, sizeof(tx_msg));
   }
 }
 
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart) {
-  if (huart == &huart7) {
-    HAL_UART_Receive_IT(&huart7, rx_msg, sizeof(rx_msg));
-  }
-}
+// void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart) {
+//   if (huart == &huart7) {
+//     HAL_UART_Receive_IT(&huart7, rx_msg, sizeof(rx_msg));
+//   }
+// }

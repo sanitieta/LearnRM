@@ -94,7 +94,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim1);
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-  HAL_UART_Receive_IT(&huart7, rx_msg, sizeof(rx_msg));
+  HAL_UART_Receive_IT(&huart7, rx_msg, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
